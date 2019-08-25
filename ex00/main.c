@@ -6,7 +6,7 @@
 /*   By: ebenali <ebenali@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 08:09:54 by ebenali           #+#    #+#             */
-/*   Updated: 2019/08/25 11:32:24 by ebenali          ###   ########.fr       */
+/*   Updated: 2019/08/25 13:49:03 by ebenali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,23 +131,29 @@ static t_rdp	rdp_unparen(t_tokctx *ctx, signed prec_lvl)
 
 static t_rdp rdp_paren(t_tokctx *ctx, signed prec_lvl)
 {
-	t_token	*tok;
+	t_token	*tok_start;
+	t_token	*tok_end;
+	t_token	*tok_reduction;
 	t_rdp	retv;
 
-	if ((tok = tokctx_dequeue(ctx)) == NULL)
-		return (t_rdp){.result=0, .err=false, .errmsg=NULL};
-	if (tok->type == TOK_LPAR) { // left parens handled here while right parens by rdp_unparen()
-		if ((retv = rdp_unparen(ctx, prec_lvl)).err)
+	if ((tok_start = tokctx_dequeue(ctx)) == NULL)
+		return (t_rdp){.result=0, .err=true, .errmsg=ft_strdup("premature end of expression")};
+	if (tok_start->type == TOK_LPAR) { // left parens handled here while right parens by rdp_unparen()
+		if ((retv = rdp_paren(ctx, prec_lvl)).err)
 			return (retv);
-		if ((tok = tokctx_dequeue(ctx))->type != TOK_RPAR) {
-			ft_asprintf(&retv.errmsg, "no matching right paren: instead got '%s'", token_tostring(tok));
+		if ((tok_end = tokctx_dequeue(ctx)) == NULL || tok_end->type != TOK_RPAR) {
+			ft_asprintf(&retv.errmsg, "no matching right paren: instead got '%s'", token_tostring(tok_end));
 			retv.err = true;
 			return (retv);
 		}
-		return (retv);
+		tok_reduction = token_init(TOK_NUM, &retv.result);
+		tok_start = tokctx_reduce(ctx, tok_start, tok_end, tok_reduction);
+		token_free(tok_reduction); // duplicated by reduce()
+		tokctx_undequeue(ctx, tok_start); // rewind
+		return rdp_unparen(ctx, prec_lvl);
 	}
 	// else
-	tokctx_undequeue(ctx, tok);
+	tokctx_undequeue(ctx, tok_start);
 	return (rdp_unparen(ctx, prec_lvl));
 }
 
@@ -164,15 +170,17 @@ static int	eval(const char *tidy)
 		return (0);
 	}
 
-	rdp = rdp_paren(ctx, -1);
-	if (rdp.err) {
-		if (rdp.errmsg != NULL)
-		{
-			ft_printf("error: malformed arithmetic expression: %s\n", rdp.errmsg);
-			free(rdp.errmsg);
+	if (ctx->tlist_head->next != NULL) {
+		rdp = rdp_paren(ctx, -1);
+		if (rdp.err) {
+			if (rdp.errmsg != NULL)
+			{
+				ft_printf("error: malformed arithmetic expression: %s\n", rdp.errmsg);
+				free(rdp.errmsg);
+			}
+			tokctx_free(ctx);
+			return (0);
 		}
-		tokctx_free(ctx);
-		return (0);
 	}
 
 	tokctx_free(ctx);

@@ -6,7 +6,7 @@
 /*   By: ebenali <ebenali@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 17:14:18 by ebenali           #+#    #+#             */
-/*   Updated: 2019/08/25 08:16:13 by ebenali          ###   ########.fr       */
+/*   Updated: 2019/08/25 14:05:05 by ebenali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ t_token		*toklist_undequeue(t_toklist *tlist, t_token *tok)
 	return (tok);
 }
 
+
 //////////////// Context
 t_tokctx			*tokctx_init(void)
 {
@@ -159,6 +160,26 @@ t_token						*tokctx_undequeue(t_tokctx *ctx, t_token *tok)
 	if (!(ctx && tok))
 		return (NULL);
 	return (toklist_undequeue(ctx->tlist_head, tok));
+}
+
+t_token		*tokctx_reduce(t_tokctx *ctx, t_token *from, t_token *to, t_token *replacement)
+{
+	t_toklist *tlist;
+	if (!ctx)
+		return (NULL);
+	tlist = ctx->tlist_head;
+	while (tlist->next && tlist->next->tok != from)
+		tlist = tlist->next;
+	while (tlist->next && tlist->next->tok != to)
+	{
+		t_token *rmtok = tlist->next->tok;
+		tlist->next = tlist->next->next;
+		token_free(rmtok);
+	}
+	if (tlist->next->tok != NULL)
+		token_free(tlist->next->tok);
+	tlist->next->tok = token_clone(replacement);
+	return (tlist->next->tok);
 }
 
 /*

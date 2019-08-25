@@ -6,7 +6,7 @@
 /*   By: ebenali <ebenali@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 19:39:50 by ebenali           #+#    #+#             */
-/*   Updated: 2019/08/24 21:46:49 by ebenali          ###   ########.fr       */
+/*   Updated: 2019/08/25 13:19:58 by ebenali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,9 @@ t_token						*tokctx_enqueue(t_tokctx *ctx, t_token *tok);
 t_token						*tokctx_dequeue(t_tokctx *ctx);
 
 t_token						*tokctx_undequeue(t_tokctx *ctx, t_token *tok);
+
+t_token						*tokctx_reduce(t_tokctx *ctx, t_token *from,
+		t_token *to, t_token *replacement);
 
 t_tokctx					*lex(const char *str);
 
