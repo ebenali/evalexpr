@@ -16,6 +16,8 @@ static _Bool	lex_nbr(const char **str, char prevc, intmax_t *num_val)
 		else
 			*str = eptr - 1;
 	}
+	else
+		return (false);
 	return (true);
 }
 
@@ -44,7 +46,7 @@ t_tokctx	*lex(const char *str)
 		else
 			break ;
 		tokctx_enqueue(ctx, tmptok);
-		free(tmptok);
+		token_free(tmptok);
 		prevc = *str++;
 	}
 	if (*str != '\0') {
