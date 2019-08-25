@@ -6,7 +6,7 @@
 /*   By: ebenali <ebenali@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 08:09:54 by ebenali           #+#    #+#             */
-/*   Updated: 2019/08/24 21:12:34 by ebenali          ###   ########.fr       */
+/*   Updated: 2019/08/25 00:10:54 by ebenali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,24 @@
 #include "libc.h"
 #include "lexer.h"
 
-static int		rdp(const char * const rest_immut, char prev_op,
-		unsigned paren_lvl) {
-	ft_printf("%s: rest='%s', prevop='%c', parenlvl=%u\n", __func__, rest_immut, prev_op, paren_lvl);
-}
-
 static int	eval(const char *tidy)
 {
 	t_tokctx *ctx;
+	t_token *tok;
 
 	if ((ctx = lex(tidy)) == NULL) {
 		ft_printf("%s: error: failed to parse expression\n", __func__);
+	}
+
+	while ((tok = tokctx_dequeue(ctx))) {
+		ft_printf("%s: arith token: type=%s", __func__, tok->type == TOK_NUM ? "NUM"
+				: tok->type == TOK_OP ? "OP" : tok->type == TOK_LPAR ? "LPAR"  :  "RPAR");
+		if (tok->type == TOK_NUM)
+			ft_printf(", val=%lli\n", tok->val.num);
+		else if (tok->type == TOK_OP)
+			ft_printf(", val='%c'\n", tok->val.op);
+		else
+			ft_putchar('\n');
 	}
 
 	tokctx_free(ctx);

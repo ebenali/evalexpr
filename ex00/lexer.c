@@ -6,7 +6,7 @@
 /*   By: ebenali <ebenali@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 17:14:18 by ebenali           #+#    #+#             */
-/*   Updated: 2019/08/24 21:46:26 by ebenali          ###   ########.fr       */
+/*   Updated: 2019/08/25 00:16:57 by ebenali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,16 +91,13 @@ t_token		*toklist_enqueue(t_toklist *tlst, t_token const *tok)
 
 t_token		*toklist_dequeue(t_toklist *tlist)
 {
-	t_token	*retv;
-
 	if (tlist == NULL)
 		return (NULL);
 	if (tlist->ctx->tlist_cursor) {
-		retv = tlist->ctx->tlist_cursor->tok;
 		tlist->ctx->tlist_cursor = tlist->ctx->tlist_cursor->next;
+		return (tlist->ctx->tlist_cursor ? tlist->ctx->tlist_cursor->tok : NULL);
 	} else
-		retv = NULL;
-	return (retv);
+		return (NULL);
 }
 
 /**
