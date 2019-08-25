@@ -6,7 +6,7 @@
 #    By: ebenali <ebenali@student.42.us.org>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/08/19 10:32:04 by ebenali           #+#    #+#              #
-#    Updated: 2019/08/24 21:45:31 by ebenali          ###   ########.fr        #
+#    Updated: 2019/08/25 08:08:08 by ebenali          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,25 +20,29 @@ EvalExpr_INCDIR=.
 EvalExpr_SRCS=main.c libc_stdio.c libc_string.c libc_vsnprintf.c libc_printf.c\
 	  libc_numeric.c libc_ctype.c libc_string2.c lexer.c lexer_lex.c
 EvalExpr_LIBS=
+EvalExpr_CFLAGS=-DALLOW_MALLOC
 
+# compute CFLAGS
+CFLAGS+= $(EvalExpr_CFLAGS)
 ifeq ($(firstword $(BUILD_TYPE)),  DBG)
 CFLAGS+= -g -ggdb3 -Wall -Wextra -pedantic -fstack-protector-strong \
 	 -fsanitize=undefined -fsanitize=address
 LDFLAGS+=
 endif
-
 ifeq ($(firstword $(BUILD_TYPE)), REL)
 CFLAGS+= -Wall -Wextra -pedantic -Werror -O3 -flto -msse4 -mavx2
 LDFLAGS+= -flto
 endif
 
+# target rules
 default: $(DEFTGT)
 
 EvalExpr: $(abspath $(EvalExpr_SRCDIR))/EvalExpr_depends.mk $(EvalExpr_OUT)
 
 $(EvalExpr_OUT): $(patsubst %.c,%.o,$(abspath \
 	$(patsubst %,$(EvalExpr_SRCDIR)/%,$(EvalExpr_SRCS))))
-	$(CC) $(CFLAGS) -I$(abspath $(EvalExpr_INCDIR)) $+ -o $@ $(EvalExpr_LIBS) $(LDFLAGS)
+	$(CC) $(CFLAGS) -I$(abspath $(EvalExpr_INCDIR)) \
+		$+ -o $@ $(EvalExpr_LIBS) $(LDFLAGS)
 
 .PHONY: EvalExpr_clean clean fclean re
 

@@ -6,7 +6,7 @@
 /*   By: ebenali <ebenali@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 17:14:18 by ebenali           #+#    #+#             */
-/*   Updated: 2019/08/25 00:16:57 by ebenali          ###   ########.fr       */
+/*   Updated: 2019/08/25 08:16:13 by ebenali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ t_token		*toklist_undequeue(t_toklist *tlist, t_token *tok)
 	if (tlist == NULL)
 		return (NULL);
 	tlp = tlist->ctx->tlist_head;
-	while (tlp->next != tlist && tlp->next != NULL)
+	while (tlp->next != NULL && tlp->next->tok != tok)
 		tlp = tlp->next;
 	if (tlp->next == NULL)
 		return (NULL);
@@ -136,6 +136,7 @@ void				tokctx_free(t_tokctx *ctx)
 			toklist_free(ctx->tlist_head->next);
 			free(ctx->tlist_head);
 		}
+		free(ctx);
 	}
 }
 

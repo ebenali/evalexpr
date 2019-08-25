@@ -6,7 +6,7 @@
 /*   By: ebenali <ebenali@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 21:22:54 by ebenali           #+#    #+#             */
-/*   Updated: 2019/08/24 18:29:50 by ebenali          ###   ########.fr       */
+/*   Updated: 2019/08/25 07:42:33 by ebenali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ extern void		ft_vsnprintf(char *buf, size_t sz, const char *fmt,
 extern void		ft_printf(const char *fmt, ...);
 
 extern void		ft_snprintf(char *buf, size_t n, const char *fmt, ...);
+
+extern void		ft_asprintf(char **str, const char *fmt, ...);
 
 /*
 ** +---------------------------------------------------------------------------
