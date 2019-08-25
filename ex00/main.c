@@ -6,7 +6,7 @@
 /*   By: ebenali <ebenali@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 08:09:54 by ebenali           #+#    #+#             */
-/*   Updated: 2019/08/25 13:49:03 by ebenali          ###   ########.fr       */
+/*   Updated: 2019/08/25 14:59:54 by ebenali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <stdlib.h>
 #include "libc.h"
 #include "lexer.h"
+
+#define ARITH_PARSE
 #include "arithmetic.h"
 
 const char	*token_tostring(t_token *tok)

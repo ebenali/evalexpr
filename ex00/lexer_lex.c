@@ -2,6 +2,9 @@
 #include <stdbool.h>
 #include "libc.h"
 #include "lexer.h"
+
+#undef ARITH_PARSE
+
 #include "arithmetic.h"
 
 static _Bool	lex_nbr(const char **str, char prevc, intmax_t *num_val)
