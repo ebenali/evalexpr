@@ -4,7 +4,7 @@
 #include "lexer.h"
 #include "arithmetic.h"
 
-static _Bool	lex_nbr(t_tokctx *ctx, const char **str, char prevc, intmax_t *num_val)
+static _Bool	lex_nbr(const char **str, char prevc, intmax_t *num_val)
 {
 	char		*eptr;
 
@@ -35,7 +35,7 @@ t_tokctx	*lex(const char *str)
 
 	prevc = '\0';
 	while (*str != '\0') {
-		if (lex_nbr(ctx, &str, prevc, &num_val))
+		if (lex_nbr(&str, prevc, &num_val))
 			tmptok = token_init(TOK_NUM, &num_val);
 		else if (ft_strchr(g_opset, *str))
 			tmptok = token_init(TOK_OP, (void*)str);

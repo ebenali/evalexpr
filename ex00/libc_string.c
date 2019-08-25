@@ -6,7 +6,7 @@
 /*   By: ebenali <ebenali@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 07:53:15 by ebenali           #+#    #+#             */
-/*   Updated: 2019/08/24 18:33:37 by ebenali          ###   ########.fr       */
+/*   Updated: 2019/08/24 21:50:28 by ebenali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,11 @@ void		ft_memcpy(register void *dest, register void const *src,
 		(void)(len -= sizeof(uint64_t));
 	}
 	while (len--)
-		(void)(*((char*)dest++) = *((char const*)src++));
+	{
+		(void)(*((char*)dest) = *((char const*)src));
+		(void)(dest = (char*)dest + sizeof(char));
+		(void)(src = (const char*)src + sizeof(char));
+	}
 }
 
 size_t		ft_strlen(register const char *str)
