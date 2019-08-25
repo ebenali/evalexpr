@@ -6,7 +6,7 @@
 /*   By: ebenali <ebenali@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 17:14:18 by ebenali           #+#    #+#             */
-/*   Updated: 2019/08/25 14:05:05 by ebenali          ###   ########.fr       */
+/*   Updated: 2019/08/25 14:48:05 by ebenali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,20 +165,27 @@ t_token						*tokctx_undequeue(t_tokctx *ctx, t_token *tok)
 t_token		*tokctx_reduce(t_tokctx *ctx, t_token *from, t_token *to, t_token *replacement)
 {
 	t_toklist *tlist;
+	t_toklist *tlnxt;
+
 	if (!ctx)
 		return (NULL);
 	tlist = ctx->tlist_head;
-	while (tlist->next && tlist->next->tok != from)
+	while (tlist->next && tlist->next->tok != from) // find start
 		tlist = tlist->next;
-	while (tlist->next && tlist->next->tok != to)
+	while (tlist->next && tlist->next->tok != to) // delete range-1
 	{
-		t_token *rmtok = tlist->next->tok;
-		tlist->next = tlist->next->next;
-		token_free(rmtok);
-	}
-	if (tlist->next->tok != NULL)
 		token_free(tlist->next->tok);
-	tlist->next->tok = token_clone(replacement);
+		tlnxt = tlist->next->next;
+		free(tlist->next);
+		tlist->next = tlnxt;
+	}
+	if (tlist->next != NULL) { // handle end of range link
+		tlnxt = tlist->next->next;
+		token_free(tlist->next->tok);
+		tlist->next->tok = token_clone(replacement);
+	}
+	else
+		tlist->next = toklist_init(ctx, replacement);
 	return (tlist->next->tok);
 }
 
