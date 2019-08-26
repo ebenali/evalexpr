@@ -6,7 +6,7 @@
 /*   By: ebenali <ebenali@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 21:22:54 by ebenali           #+#    #+#             */
-/*   Updated: 2019/08/25 17:55:06 by ebenali          ###   ########.fr       */
+/*   Updated: 2019/08/25 21:04:37 by ebenali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ extern int		ft_strncmp(const char *s1, const char *s2, unsigned int n);
 
 const char		*ft_strerror(int eno);
 
-extern char*	ft_strcpy(char *dest, const char *src);
+extern char		*ft_strcpy(char *dest, const char *src);
 
 extern char		*ft_strdup(const char *s);
 
