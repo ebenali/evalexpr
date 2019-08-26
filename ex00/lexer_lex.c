@@ -22,6 +22,7 @@ static _Bool	lex_nbr(const char **str, char prevc, intmax_t *num_val)
 {
 	char		*eptr;
 
+	eptr = NULL;
 	if (ft_strchr(g_digset, **str) || (ft_strchr("+-", **str) &&
 			(prevc == '\0' || prevc == '(' || ft_strchr(g_opset, prevc))))
 	{
