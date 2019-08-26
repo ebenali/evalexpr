@@ -15,11 +15,6 @@
 #include "libc.h"
 #include "lexer.h"
 
-/*
-** Specialized lexer providing an interface to a token FIFO stream extracted
-** from parenthesized arithmetic expressions of integer operands.
-*/
-
 t_token		*tokctx_reduce(t_tokctx *ctx, t_token *from, t_token *to,
 		t_token *replacement)
 {

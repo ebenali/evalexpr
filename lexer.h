@@ -17,6 +17,11 @@
 # include <stdint.h>
 # include "libc.h"
 
+/*
+** Specialized lexer providing an interface to a token FIFO stream extracted
+** from parenthesized arithmetic expressions of integer operands.
+*/
+
 enum						e_toktype {
 	TOK_NUM,
 	TOK_OP,

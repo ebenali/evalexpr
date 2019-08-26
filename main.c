@@ -20,11 +20,10 @@
 #include "arithmetic.h"
 
 /*
-**  Upon encountering left parens, start a sub-parse with rdp()
-**  Upon enountering right parens, bail out and back up for rdp() to make sure
-**  parens are balanced.
+**  Recursive descent evaluator part #2
+**  evaluates de-parenthesized expression through ctx's token stream routines
+**  calls rdp_paren() for recursive application
 */
-
 t_rdp			rdp_unparen(t_tokctx *ctx, signed prec_lvl)
 {
 	struct s_uns	us;
@@ -54,6 +53,9 @@ t_rdp			rdp_unparen(t_tokctx *ctx, signed prec_lvl)
 	return (us.retv);
 }
 
+/*
+** Recursive descent evaluator part #1
+*/
 t_rdp			rdp_paren(t_tokctx *ctx, signed prec_lvl)
 {
 	t_token	*tok_start;
@@ -80,9 +82,8 @@ t_rdp			rdp_paren(t_tokctx *ctx, signed prec_lvl)
 }
 
 /*
-**  Tokenize and initiate recursive descent parse
+**  Tokenize and initiate recursive descent evaluation
 */
-
 static int		eval(const char *tidy)
 {
 	t_tokctx	*ctx;
@@ -106,7 +107,6 @@ static int		eval(const char *tidy)
 /*
 **  tidy up input and pass to eval()
 */
-
 int				eval_expr(char *str)
 {
 	char	*tok;
