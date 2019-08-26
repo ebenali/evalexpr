@@ -6,7 +6,7 @@
 #    By: ebenali <ebenali@student.42.us.org>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/08/19 10:32:04 by ebenali           #+#    #+#              #
-#    Updated: 2019/08/25 19:22:22 by ebenali          ###   ########.fr        #
+#    Updated: 2019/08/25 20:45:48 by ebenali          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ EvalExpr_SRCDIR=.
 EvalExpr_INCDIR=.
 EvalExpr_SRCS=main.c libc_stdio.c libc_string.c libc_vsnprintf.c libc_printf.c\
 	  libc_numeric.c libc_ctype.c libc_string2.c lexer.c lexer_lex.c\
-	  lexer_token.c lexer_toklist.c lexer_tokctx.c
+	  lexer_token.c lexer_toklist.c lexer_tokctx.c main2.c
 EvalExpr_LIBS=
 EvalExpr_CFLAGS=-DALLOW_MALLOC
 
