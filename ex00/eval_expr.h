@@ -1,40 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   arithmetic.h                                       :+:      :+:    :+:   */
+/*   eval_expr.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebenali <ebenali@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/24 20:44:32 by ebenali           #+#    #+#             */
-/*   Updated: 2019/08/25 17:58:29 by ebenali          ###   ########.fr       */
+/*   Created: 2019/08/25 18:11:53 by ebenali           #+#    #+#             */
+/*   Updated: 2019/08/25 18:22:47 by ebenali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ARITHMETIC_H
-# define ARITHMETIC_H
+#ifndef EVAL_EXPR_H
+# define EVAL_EXPR_H
 
-# ifdef ARITH_PARSE
+typedef struct	s_rdp {
+	int			result;
+	_Bool		err;
+	char		*errmsg;
+}				t_rdp;
 
-enum {
-	ADD = '+', SUB = '-', MUL = '*', DIV = '/', MOD = '%'
-};
-
-#  define OPREC(op) (g_prc_tbl[(int)(op)])
-
-static signed	g_prc_tbl[] = {
-	[ADD]= 0,
-	[SUB]= 0,
-	[MUL]= 1,
-	[DIV]= 1,
-	[MOD]= 1,
-};
-
-# else
-
-static char		g_digset[] = "0123456789";
-
-static char		g_opset[] = "+-*/%";
-
-# endif
+static t_rdp	rdp_paren(t_tokctx *ctx, signed prec_lvl);
+static t_rdp	rdp_unparen(t_tokctx *ctx, signed prec_lvl);
 
 #endif
+
+/*
+** vim: ts=4 sw=4
+*/

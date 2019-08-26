@@ -6,7 +6,7 @@
 /*   By: ebenali <ebenali@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 21:22:54 by ebenali           #+#    #+#             */
-/*   Updated: 2019/08/25 07:42:33 by ebenali          ###   ########.fr       */
+/*   Updated: 2019/08/25 17:55:06 by ebenali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 ** |                            libc_stdio.c
 */
 
-struct			s_printf_lenbase {
+struct			s_printf_lenbase
+{
 	signed		len_mod;
 	unsigned	num_base;
 };

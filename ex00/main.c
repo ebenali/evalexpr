@@ -6,7 +6,7 @@
 /*   By: ebenali <ebenali@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 08:09:54 by ebenali           #+#    #+#             */
-/*   Updated: 2019/08/25 17:34:47 by ebenali          ###   ########.fr       */
+/*   Updated: 2019/08/25 18:13:58 by ebenali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include "libc.h"
 #include "lexer.h"
+#include "eval_expr.h"
 
 #define ARITH_PARSE
 #include "arithmetic.h"
@@ -41,15 +42,6 @@ const char	*token_tostring(t_token *tok)
 	}
 	return (buf);
 }
-
-typedef struct	s_rdp {
-	int			result;
-	_Bool		err;
-	char		*errmsg;
-}				t_rdp;
-
-static t_rdp rdp_paren(t_tokctx *ctx, signed prec_lvl);
-static t_rdp	rdp_unparen(t_tokctx *ctx, signed prec_lvl);
 
 int				eval_op(int op1, char op, int op2)
 {

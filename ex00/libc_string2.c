@@ -6,14 +6,14 @@
 /*   By: ebenali <ebenali@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 12:12:19 by ebenali           #+#    #+#             */
-/*   Updated: 2019/08/24 17:09:49 by ebenali          ###   ########.fr       */
+/*   Updated: 2019/08/25 17:47:40 by ebenali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libc.h"
 
-char*		ft_strcpy(char *dest, const char *src)
+char		*ft_strcpy(char *dest, const char *src)
 {
 	char *retv;
 
@@ -31,6 +31,7 @@ char		*ft_strdup(const char *s)
 char		*ft_strtok(char *s, const char *dlm)
 {
 	static	char	*buf = NULL;
+	char			*tok;
 
 	if (buf == NULL || s != NULL)
 		buf = s;
@@ -38,16 +39,17 @@ char		*ft_strtok(char *s, const char *dlm)
 		++buf;
 	if (buf && *buf)
 	{
-		char	*tok = buf;
-		while (*buf && *(buf+1) && ft_strchr(dlm, *(buf+1)) == NULL)
+		tok = buf;
+		while (*buf && *(buf + 1) && ft_strchr(dlm, *(buf + 1)) == NULL)
 			++buf;
 		if (*buf != '\0')
 		{
 			if (*(buf + 1) != '\0')
 			{
 				*(buf + 1) = '\0';
-				buf = buf + 2; 
-			} else
+				buf = buf + 2;
+			}
+			else
 				buf = NULL;
 		}
 		return (tok);

@@ -6,7 +6,7 @@
 /*   By: ebenali <ebenali@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 10:43:13 by ebenali           #+#    #+#             */
-/*   Updated: 2019/08/25 07:41:52 by ebenali          ###   ########.fr       */
+/*   Updated: 2019/08/25 17:52:18 by ebenali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_printf(const char *fmt, ...)
 	__builtin_va_end(ap);
 }
 
-#ifdef	ALLOW_MALLOC
+#ifdef ALLOW_MALLOC
 
 void	ft_asprintf(char **str, const char *fmt, ...)
 {
