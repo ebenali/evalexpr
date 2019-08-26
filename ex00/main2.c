@@ -6,7 +6,7 @@
 /*   By: ebenali <ebenali@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/25 20:44:04 by ebenali           #+#    #+#             */
-/*   Updated: 2019/08/25 20:52:59 by ebenali          ###   ########.fr       */
+/*   Updated: 2019/08/25 21:38:47 by ebenali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int				eval_op(int op1, char op, int op2)
 		return (op1 / op2);
 	else if (op == MOD)
 		return (op1 % op2);
+	(void)g_prc_tbl;
 	return (0);
 }
 
