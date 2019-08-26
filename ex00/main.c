@@ -6,7 +6,7 @@
 /*   By: ebenali <ebenali@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 08:09:54 by ebenali           #+#    #+#             */
-/*   Updated: 2019/08/25 14:59:54 by ebenali          ###   ########.fr       */
+/*   Updated: 2019/08/25 17:34:47 by ebenali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ static t_rdp	rdp_unparen(t_tokctx *ctx, signed prec_lvl)
 	t_rdp		retv;
 	t_token		*op1;
 	t_token		*op;
-	t_token		*op2;
 	t_rdp		ev_op2;
 
 	if ((op1 = tokctx_dequeue(ctx)) == NULL || !(op1->type == TOK_NUM || op1->type == TOK_LPAR)) {
@@ -84,14 +83,13 @@ static t_rdp	rdp_unparen(t_tokctx *ctx, signed prec_lvl)
 		ft_asprintf(&retv.errmsg, "expected numeric or parenthesized operand #1, heave instead token '%s'",
 				token_tostring(op1));
 		return (retv);
-	} else if (op1->type == TOK_LPAR) {
-		if ((ev_op2 = rdp_paren(ctx, -1)).err == true)
-			return (ev_op2);
-		retv.result = ev_op2.result;
-	} else
-		retv.result = op1->val.num;
+	}
+	if (op1->type == TOK_LPAR) // immediately nested parens
+		return (rdp_paren(ctx, -1));
+	//else
+	retv.result = op1->val.num;
 	retv.err = false;
-	while (true) { // keep going as long as on same or higher precedence or error occurs
+	while (true) {
 		if ((op = tokctx_dequeue(ctx)) == NULL || op->type != TOK_OP) {
 			if (op == NULL) // either single numeric operand or computation collapsed into one
 				break ;
@@ -104,6 +102,18 @@ static t_rdp	rdp_unparen(t_tokctx *ctx, signed prec_lvl)
 					token_tostring(op));
 			return (retv);
 		}
+		if (OPREC(op->val.op) <= prec_lvl) {
+			// lower precedence than previous? backtrack.
+			// also effectively achieves left-associativity for operators of equal prcedence
+			tokctx_undequeue(ctx, op);
+			return (retv);
+		}
+		if ((ev_op2 = rdp_paren(ctx, OPREC(op->val.op))).err == true)
+			return (ev_op2);
+		retv.result = eval_op(retv.result, op->val.op, ev_op2.result);
+	}
+	return (retv);
+#if 0
 		if (OPREC(op->val.op) < prec_lvl) { // lower precedence encountered, go back to caller
 			tokctx_undequeue(ctx, op);
 			return (retv);
@@ -128,7 +138,7 @@ static t_rdp	rdp_unparen(t_tokctx *ctx, signed prec_lvl)
 		} // same prec
 		retv.result = eval_op(retv.result, op->val.op, ev_op2.result);
 	} // while (true)
-	return (retv);
+#endif
 }
 
 static t_rdp rdp_paren(t_tokctx *ctx, signed prec_lvl)
@@ -141,7 +151,7 @@ static t_rdp rdp_paren(t_tokctx *ctx, signed prec_lvl)
 	if ((tok_start = tokctx_dequeue(ctx)) == NULL)
 		return (t_rdp){.result=0, .err=true, .errmsg=ft_strdup("premature end of expression")};
 	if (tok_start->type == TOK_LPAR) { // left parens handled here while right parens by rdp_unparen()
-		if ((retv = rdp_paren(ctx, prec_lvl)).err)
+		if ((retv = rdp_paren(ctx, -1)).err)
 			return (retv);
 		if ((tok_end = tokctx_dequeue(ctx)) == NULL || tok_end->type != TOK_RPAR) {
 			ft_asprintf(&retv.errmsg, "no matching right paren: instead got '%s'", token_tostring(tok_end));

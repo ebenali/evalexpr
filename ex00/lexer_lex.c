@@ -12,7 +12,7 @@ static _Bool	lex_nbr(const char **str, char prevc, intmax_t *num_val)
 	char		*eptr;
 
 	if (ft_strchr(g_digset, **str) || (ft_strchr("+-", **str) &&
-				(prevc == '\0' || ft_strchr("+-", prevc) != NULL))) {
+				(prevc == '\0' || prevc == '('|| ft_strchr(g_opset, prevc) != NULL))) {
 		*num_val = ft_strtoimax(*str, &eptr, 10);
 		if (eptr == *str)
 			return (false);
@@ -58,3 +58,7 @@ t_tokctx	*lex(const char *str)
 	}
 	return (ctx);
 }
+
+/*
+** vim: ts=4 sw=4
+*/

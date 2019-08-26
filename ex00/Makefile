@@ -6,13 +6,13 @@
 #    By: ebenali <ebenali@student.42.us.org>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/08/19 10:32:04 by ebenali           #+#    #+#              #
-#    Updated: 2019/08/25 08:08:08 by ebenali          ###   ########.fr        #
+#    Updated: 2019/08/25 17:34:03 by ebenali          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 TARGETS=EvalExpr
 DEFTGT=$(firstword $(TARGETS))
-BUILD_TYPE=DBG				# Build types a-la cmake, REL for release
+BUILD_TYPE=REL				# Build types a-la cmake, REL for release
 
 EvalExpr_OUT=eval_expr
 EvalExpr_SRCDIR=.
@@ -30,7 +30,7 @@ CFLAGS+= -g -ggdb3 -Wall -Wextra -pedantic -fstack-protector-strong \
 LDFLAGS+=
 endif
 ifeq ($(firstword $(BUILD_TYPE)), REL)
-CFLAGS+= -Wall -Wextra -pedantic -Werror -O3 -flto -msse4 -mavx2
+CFLAGS+= -Wall -Wextra -pedantic -Werror -O3 -flto -msse4 -mavx
 LDFLAGS+= -flto
 endif
 
